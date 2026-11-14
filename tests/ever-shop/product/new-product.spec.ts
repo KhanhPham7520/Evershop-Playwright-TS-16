@@ -1,87 +1,69 @@
 import { expect, test } from "@playwright/test";
-import {
-    ADMIN_PASSWORD,
-    ADMIN_USERNAME,
-    URL,
-} from "../../../src/utils/constants-utils";
-import { CommonPage } from "../../../src/pages/common-page";
+import {ADMIN_PASSWORD,ADMIN_USERNAME, URL } from "../../../src/utils/constants-utils";
 import { ProductPage } from "../../../src/pages/products-page";
 import { EditProductPage } from "../../../src/pages/edit-product-page";
 import { LoginPage } from "../../../src/pages/login-page";
 import { NewProductPage } from "../../../src/pages/new-product-page";
 import { DashboardPage } from "../../../src/pages/dashboard-page";
-import { request } from "http";
 
 let newProductPage: NewProductPage;
 let loginPage: LoginPage;
 let dashboardPage: DashboardPage;
 let productPage: ProductPage;
 let editProductPage: EditProductPage;
+let productIds: string[] = [];
+let cookie:string;
 
 test.beforeEach(async ({ page }) => {
     newProductPage = new NewProductPage(page);
+    loginPage = new LoginPage(page);
     productPage = new ProductPage(page);
     dashboardPage = new DashboardPage(page);
     editProductPage = new EditProductPage(page);
-
     await page.goto(URL);
+    await loginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);
+    cookie = await loginPage.getCookie();
 });
 
-test("Verify create a new product successful", async ({ page }) => {
-    let commonPage = new CommonPage(page);
-    let loginPage = new LoginPage(page);
+test.afterAll(() => {
+    for(let id of productIds){
+        editProductPage.deleteProductById(cookie, id);
+    }
+})
 
-    //Login
-    await loginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);
+                             
+test("Verify create a new product successful", async () => {
+    await dashboardPage.onPage();
+    await dashboardPage.clickMenuItemByLabel("New Product");
 
-    //Verify user on Dashboard page
-    let dashboardHeaderXpath =
-        "//h1[contains(concat('', @class, ''), 'page-heading-title')]";
-    await expect(page.locator(dashboardHeaderXpath)).toBeVisible();
-    await commonPage.clickMenuItemByLabel("New Product");
-
-    //Verify user on New Product page
-    let newProductHeaderXpath = "//a[normalize-space()='New Product']";
-    await expect(page.locator(newProductHeaderXpath)).toBeVisible();
-
-    //Input product's info
+    await dashboardPage.onPage();
     const random = new Date().getTime();
-
     const productName = `Iphone ${random}`;
     const sku = `SKU-${random}`;
 
-    await commonPage.inputTextboxByLabel("Name", `Iphone ${random}`);
-    await commonPage.inputTextboxByLabel("SKU", `SKU-${random}`);
-    await commonPage.inputTextboxByLabel("Price", "1500");
-    await commonPage.inputTextboxByLabel("Weight", "0.05");
-    await commonPage.selectDropdownItemByLabel("Tax class", "Taxable Goods");
-    await newProductPage.uploadProductImage(
-        "/data/data/upload/iPhone-16-pro.webp",
-    );
-    await commonPage.selectRadioButtonByLabel("Status", "Disabled");
-    await commonPage.selectRadioButtonByLabel("Visibility", "Not visible");
-    await commonPage.selectRadioButtonByLabel("Manage stock?", "No");
-    await commonPage.selectRadioButtonByLabel("Stock availability", "No");
-    await commonPage.inputTextboxByLabel("Quantity", "100");
-    await commonPage.selectDropdownItemByLabel("Attribute group", "Default");
-    await commonPage.selectDropdownItemByLabel("Color", "Black");
-    await commonPage.selectDropdownItemByLabel("Size", "XXL");
+    await newProductPage.inputTextboxByLabel("Name", productName);
+    await newProductPage.inputTextboxByLabel("SKU", sku);
+    await newProductPage.inputTextboxByLabel("Price", "1500");
+    await newProductPage.inputTextboxByLabel("Weight", "0.05");
+    await newProductPage.selectDropdownItemByLabel("Tax class", "Taxable Goods");
+    await newProductPage.uploadProductImage("/data/upload/iPhone-16-pro.webp");
+    await newProductPage.selectRadioButtonByLabel("Status", "Disabled");
+    await newProductPage.selectRadioButtonByLabel("Visibility", "Not visible");
+    await newProductPage.selectRadioButtonByLabel("Manage stock?", "No");
+    await newProductPage.selectRadioButtonByLabel("Stock availability", "No");
+    await newProductPage.inputTextboxByLabel("Quantity", "100");
+    await newProductPage.selectDropdownItemByLabel("Attribute group", "Default");
+    await newProductPage.selectDropdownItemByLabel("Color", "Black");
+    await newProductPage.selectDropdownItemByLabel("Size", "XXL");
 
-    await commonPage.inputTextboxByLabel(
-        "Url key",
-        `iphone-18-pro-max-${random}`,
-    );
-    await commonPage.inputTextboxByLabel("Meta title", "Iphone 18 Pro Max");
-    await commonPage.inputTextboxByLabel("Meta keywords", "Iphone 18 pro max");
-    await commonPage.inputTextboxByLabel(
-        "Meta description",
-        "Iphone 18 pro max description",
-    );
+    await newProductPage.inputTextboxByLabel("Url key",`iphone-18-pro-max-${random}`);
+    await newProductPage.inputTextboxByLabel("Meta title", "Iphone 18 Pro Max");
+    await newProductPage.inputTextboxByLabel("Meta keywords", "Iphone 18 pro max");
+    await newProductPage.inputTextboxByLabel("Meta description","Iphone 18 pro max description");
 
-    await commonPage.clickButtonByLabel("Save");
-    await commonPage.verifyNotificationMessage("Product saved successfully!");
-
-    await commonPage.clickMenuItemByLabel("Products");
+    await newProductPage.clickButtonByLabel("Save");
+    await newProductPage.verifyNotificationMessage("Product saved successfully!");
+    await newProductPage.clickMenuItemByLabel("Products");
     await productPage.onPage();
     await productPage.searchProduct(productName);
     await productPage.selectProductByName(productName);
@@ -93,6 +75,7 @@ test("Verify create a new product successful", async ({ page }) => {
     expect(await editProductPage.getTextboxValueByLabel("SKU")).toEqual(sku);
     expect(await editProductPage.getTextboxValueByLabel("Price")).toEqual("1500");
     expect(await editProductPage.getTextboxValueByLabel("Weight")).toEqual("0.05");
-
+    
+   productIds.push(productId);
 
 });

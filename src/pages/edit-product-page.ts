@@ -2,6 +2,7 @@ import { expect, Page } from "@playwright/test";
 import { CommonPage } from "./common-page";
 
 export class EditProductPage extends CommonPage {
+    
     constructor(page: Page) {
         super(page);
     }
@@ -11,9 +12,10 @@ export class EditProductPage extends CommonPage {
         await expect(this.page.locator(newProductHeaderXpath)).toBeVisible();
     }
 
-    async getProductIdFromUrl(){
+    getProductIdFromUrl(){
         let url = this.page.url();
-        let splitting = url.split();
-        return splitting[splitting]
+        let splitting = url.split('/');
+        return splitting[splitting.length - 1]
     }
+
 }

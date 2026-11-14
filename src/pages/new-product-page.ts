@@ -3,20 +3,19 @@ import path from "node:path";
 import { CommonPage } from "./common-page";
 
 export class NewProductPage extends CommonPage {
+    
     constructor(page: Page) {
         super(page);
     }
 
     async onPage() {
-        let dashboardHeaderXpath =
-            "//h1[contains(concat('', @class, ''), 'page-heading-title')]";
+        let dashboardHeaderXpath = "//h1[contains(concat('', @class, ''), 'page-heading-title')]";
         await expect(this.page.locator(dashboardHeaderXpath)).toBeVisible();
     }
 
     async selectCategory(category: string) {
         await this.page.getByRole("link", { name: "Select category" }).click();
-        let searchCategoryInput =
-            this.page.getByPlaceholder("Search categories");
+        let searchCategoryInput = this.page.getByPlaceholder("Search categories");
 
         await searchCategoryInput.clear();
         await searchCategoryInput.click();

@@ -1,0 +1,33 @@
+{
+    "name": "Iphone 1787577600106",
+    "product_id": "",
+    "sku": "SKU-1787577600106",
+    "price": "1500",
+    "weight": "0.05",
+    "category_id": "3",
+    "tax_class": "1",
+    "description": "[]",
+    "images": [
+        "/assets/catalog/1927/2364/iphone-17-pro-max-cam.jpg"
+    ],
+    "url_key": "iphone-18-pro-max-1787577600106",
+    "meta_title": "Iphone 18 Pro Max",
+    "meta_keywords": "Iphone 18, pro, max",
+    "meta_description": "Iphone 18 pro max description",
+    "status": "0",
+    "visibility": "0",
+    "manage_stock": "0",
+    "stock_availability": "0",
+    "qty": "100",
+    "group_id": "1",
+    "attributes": [
+        {
+            "attribute_code": "color",
+            "value": "2"
+        },
+        {
+            "attribute_code": "size",
+            "value": "4"
+        }
+    ]
+}

@@ -2,6 +2,7 @@ import { expect, Page } from "@playwright/test";
 import { CommonPage } from "./common-page";
 
 export class ProductPage extends CommonPage {
+    
     searchBoxSelector = "#keyword";
 
     constructor(page: Page) {

@@ -1,6 +1,8 @@
 import { expect, Page, request } from "@playwright/test";
+import { API_URL } from "../utils/constants-utils";
 
 export class CommonPage {
+    
     page: Page;
 
     constructor(page: Page) {
@@ -76,16 +78,27 @@ export class CommonPage {
         let cookies = await this.page.context().cookies();
         let asidOjb = cookies.find((obj) => obj.name == "asid");
         let sidObj = cookies.find((obj) => obj.name == "sid");
-        let cookiesHeader = `sid=${sidObj?.value};asid=${asidOjb?.value}`;
-
+        return `sid=${sidObj?.value};asid=${asidOjb?.value}`;
     }
 
-    async deleteProductById(cokkie: string, id:string) {
+    async deleteProductById(cookie: string, productId:string) {
         let req = await request.newContext();
         await req.delete(`${API_URL}/api/products/${productId}`, {
             headers: {
-                cookies: cookiesHeader,
+                cookies: cookie,
             },
         });
+    }
+
+    async createNewProduct(cookie:string, requestBody:any){
+        let req = await request.newContext();
+        let response = await req.post(`${API_URL}/api/products`, {
+            headers: {
+                cookies: cookie,
+            },
+            data:requestBody
+        });
+
+        return response;
     }
 }
