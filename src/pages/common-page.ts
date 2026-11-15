@@ -65,8 +65,8 @@ export class CommonPage {
     }
 
     async getTextboxValueByLabel(label: string) {
-        let xpathTextbox = `//input[@name=${label}]`;
-        let xpathTextarea = `//textarea[@id=${label}]`;
+        let xpathTextbox = `//input[@name='${label}']`;
+        let xpathTextarea = `//textarea[@id='${label}']`;
         let inputLocator = this.page.locator(`${xpathTextarea} | ${xpathTextbox}`).first();
         return inputLocator.inputValue();
     }

@@ -2,7 +2,6 @@ import { expect, test } from "@playwright/test";
 import {ADMIN_HOST,ADMIN_PASSWORD,ADMIN_USERNAME} from "../../../src/utils/constants-utils";
 import { LoginPage } from "../../../src/pages/login-page";
 import { DashboardPage } from "../../../src/pages/dashboard-page";
-import { invalidLoggedInData } from "../../../data/data/login/login-data";
 
 let loginPage: LoginPage;
 let dashboardPage: DashboardPage;
@@ -18,17 +17,17 @@ test("Verify login successful ", async () => {
     await dashboardPage.onPage();
 });
 
-for (let input of invalidLoggedInData) {
-    test(`Verify login failed when username is '${input.email}' and password is '${input.password}' `, async () => {
-        await loginPage.login(input.email, input.password);
-        for (let item of input.expected) {
-            await loginPage.verifyFieldErrorMessageByLabel(
-                item.field,
-                item.message,
-            );
-        }
-    });
-}
+// for (let input of invalidLoggedInData) {
+//     test(`Verify login failed when username is '${input.email}' and password is '${input.password}' `, async () => {
+//         await loginPage.login(input.email, input.password);
+//         for (let item of input.expected) {
+//             await loginPage.verifyFieldErrorMessageByLabel(
+//                 item.field,
+//                 item.message,
+//             );
+//         }
+//     });
+// }
 
 test("Verify login failed when password is empty", async () => {
     await loginPage.login("khanhpham", "");

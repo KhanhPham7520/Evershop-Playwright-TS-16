@@ -27,7 +27,7 @@ test.beforeEach(async ({ page }) => {
 
 test.afterAll(() => {
     for (let id of productIds) {
-        editProductPage.deleteProductById(cookie, id);
+      editProductPage.deleteProductById(cookie, id);
     }
 })
 
@@ -70,10 +70,10 @@ test("Verify create a new product successful", async () => {
 
     let productId = editProductPage.getProductIdFromUrl();
 
-    // expect(await editProductPage.getTextboxValueByLabel("name")).toEqual(productName);
-    // expect(await editProductPage.getTextboxValueByLabel("sku")).toEqual(sku);
-    // expect(await editProductPage.getTextboxValueByLabel("price")).toEqual("1500");
-    // expect(await editProductPage.getTextboxValueByLabel("weight")).toEqual("0.05");
+    expect(await editProductPage.getTextboxValueByLabel("name")).toEqual(productName);
+    expect(await editProductPage.getTextboxValueByLabel("sku")).toEqual(sku);
+    expect(await editProductPage.getTextboxValueByLabel("price")).toEqual("1500");
+    expect(await editProductPage.getTextboxValueByLabel("weight")).toEqual("0.05");
 
     productIds.push(productId);
 
