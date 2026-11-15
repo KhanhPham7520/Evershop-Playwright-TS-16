@@ -2,8 +2,8 @@ import { expect, Page } from "@playwright/test";
 import { CommonPage } from "./common-page";
 
 export class ProductPage extends CommonPage {
-    
-    searchBoxSelector = "#keyword";
+
+    searchBoxSelector = "#field-keyword";
 
     constructor(page: Page) {
         super(page);

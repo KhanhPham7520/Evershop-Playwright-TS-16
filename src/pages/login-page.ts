@@ -2,15 +2,15 @@ import { expect, Page } from "@playwright/test";
 import { CommonPage } from "./common-page";
 
 export class LoginPage extends CommonPage {
-    
+
     constructor(page: Page) {
         super(page);
     }
 
     async login(username: string, password: string) {
-        await this.inputTextboxByLabel("Email", username);
-        await this.inputTextboxByLabel("Password", password);
-        await this.clickButtonByLabel("SIGN IN");
+        await this.inputTextboxByLabel("email", username);
+        await this.inputTextboxByLabel("password", password);
+        await this.clickButtonByLabel("Sign In");
     }
 
     async verifyFieldErrorMessageByLabel(label: string, message: string) {

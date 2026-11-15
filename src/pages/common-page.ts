@@ -2,7 +2,7 @@ import { expect, Page, request } from "@playwright/test";
 import { API_URL } from "../utils/constants-utils";
 
 export class CommonPage {
-    
+
     page: Page;
 
     constructor(page: Page) {
@@ -10,8 +10,8 @@ export class CommonPage {
     }
 
     async inputTextboxByLabel(label: string, input: string) {
-        let xpathTextbox = `(//label[normalize-space()='${label}']//following::input)[1]`;
-        let xpathTextarea = `(//label[normalize-space()='${label}']//following::textarea)[1]`;
+        let xpathTextbox = `//input[@name='${label}']`;
+        let xpathTextarea = `//textarea[@id='${label}']`;
         let inputLocator = this.page
             .locator(`${xpathTextbox} | ${xpathTextarea}`)
             .first();
@@ -41,14 +41,13 @@ export class CommonPage {
     }
 
     async selectDropdownItemByLabel(label: string, item: string) {
-        let xpath = `(//*[normalize-space()='${label}']//following::select)[1]`;
-        await this.page.locator(xpath).selectOption({ label: item });
+        await this.page.getByLabel(`${label}`).click();
+        await this.page.getByRole('option', { name: `${item}` }).click();
     }
 
     async selectCategory(category: string) {
         await this.page.getByRole("link", { name: "Select category" }).click();
-        let searchCategoryInput =
-            await this.page.getByPlaceholder("Search categories");
+        let searchCategoryInput = await this.page.getByPlaceholder("Search categories");
         await searchCategoryInput.clear();
         await searchCategoryInput.click();
         await searchCategoryInput.fill(category);
@@ -61,42 +60,39 @@ export class CommonPage {
     }
 
     async selectRadioButtonByLabel(label: string, item: string) {
-        let xpath = `(//label[normalize-space()='${label}']//following::div//span[normalize-space()='${item}'])[1]`;
+        let xpath = `//label[contains(normalize-space(),'${label}')]//following::div//child::label[normalize-space()='${item}']`;
         await this.page.locator(xpath).click();
     }
 
     async getTextboxValueByLabel(label: string) {
-        let xpathTextbox = `(//label[normalize-space()='${label}']//following::input)[1]`;
-        let xpathTextarea = `(//label[normalize-space()='${label}']//following::textarea)[1]`;
-        let inputLocator = this.page
-            .locator(`${xpathTextarea} | ${xpathTextbox}`)
-            .first();
+        let xpathTextbox = `//input[@name=${label}]`;
+        let xpathTextarea = `//textarea[@id=${label}]`;
+        let inputLocator = this.page.locator(`${xpathTextarea} | ${xpathTextbox}`).first();
         return inputLocator.inputValue();
     }
 
     async getCookie() {
-        let cookies = await this.page.context().cookies();
-        let asidOjb = cookies.find((obj) => obj.name == "asid");
-        let sidObj = cookies.find((obj) => obj.name == "sid");
-        return `sid=${sidObj?.value};asid=${asidOjb?.value}`;
+        const cookies = await this.page.context().cookies();
+        return cookies.map((c) => `${c.name}=${c.value}`).join('; ');
     }
 
-    async deleteProductById(cookie: string, productId:string) {
-        let req = await request.newContext();
-        await req.delete(`${API_URL}/api/products/${productId}`, {
-            headers: {
-                cookies: cookie,
-            },
+    async deleteProductById(cookie: string, productId: string) {
+        const req = await request.newContext();
+        const res = await req.delete(`${API_URL}/api/products/${productId}`, {
+            headers: { Cookie: cookie },
         });
+        console.log(res.status(), await res.json());
+        await req.dispose();
+        return res;
     }
 
-    async createNewProduct(cookie:string, requestBody:any){
+    async createNewProduct(cookie: string, requestBody: any) {
         let req = await request.newContext();
         let response = await req.post(`${API_URL}/api/products`, {
             headers: {
                 cookies: cookie,
             },
-            data:requestBody
+            data: requestBody
         });
 
         return response;

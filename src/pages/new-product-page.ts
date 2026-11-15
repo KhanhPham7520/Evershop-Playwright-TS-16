@@ -1,9 +1,10 @@
 import { expect, Page } from "@playwright/test";
-import path from "node:path";
 import { CommonPage } from "./common-page";
+import process from "process";
+import path from "path";
 
 export class NewProductPage extends CommonPage {
-    
+
     constructor(page: Page) {
         super(page);
     }
@@ -26,7 +27,7 @@ export class NewProductPage extends CommonPage {
     }
 
     async uploadProductImage(filePath: string) {
-        let selector = `#images input`;
+        let selector = `#image-uploader-wrapper input`;
         let absolutePath = path.join(process.cwd(), filePath);
         await this.page.locator(selector).setInputFiles(absolutePath);
     }

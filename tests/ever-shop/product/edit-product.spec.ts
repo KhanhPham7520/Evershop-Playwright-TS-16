@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import {ADMIN_PASSWORD, ADMIN_USERNAME,URL} from "../../../src/utils/constants-utils";
+import { ADMIN_PASSWORD, ADMIN_USERNAME, URL } from "../../../src/utils/constants-utils";
 import { ProductPage } from "../../../src/pages/products-page";
 import { EditProductPage } from "../../../src/pages/edit-product-page";
 import { LoginPage } from "../../../src/pages/login-page";
@@ -13,7 +13,7 @@ let dashboardPage: DashboardPage;
 let productPage: ProductPage;
 let editProductPage: EditProductPage;
 let productIds: string[] = [];
-let cookie:string;
+let cookie: string;
 
 test.beforeEach(async ({ page }) => {
     newProductPage = new NewProductPage(page);
@@ -27,7 +27,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.afterAll(() => {
-    for(let id of productIds){
+    for (let id of productIds) {
         editProductPage.deleteProductById(cookie, id);
     }
 })
