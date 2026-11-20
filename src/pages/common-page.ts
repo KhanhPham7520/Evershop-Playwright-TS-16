@@ -72,29 +72,29 @@ export class CommonPage {
     }
 
     async getCookie() {
-        const cookies = await this.page.context().cookies();
-        return cookies.map((c) => `${c.name}=${c.value}`).join('; ');
+        let coookie = await this.page.context().cookies();
+        let asidOjb = coookie.find((cookie) => cookie.name === "asid");
+        let sidObj = coookie.find((cookie) => cookie.name === "sid");
+        return `asid=${sidObj?.value}; sid=${asidOjb?.value}`;
     }
 
     async deleteProductById(cookie: string, productId: string) {
-        const req = await request.newContext();
-        const res = await req.delete(`${API_URL}/api/products/${productId}`, {
-            headers: { Cookie: cookie },
+        let req = await request.newContext();
+        await req.delete(`${API_URL}/api/products/${productId}`, {
+            headers: {
+                cookies: cookie,
+            },
         });
-        console.log(res.status(), await res.json());
-        await req.dispose();
-        return res;
     }
 
     async createNewProduct(cookie: string, requestBody: any) {
         let req = await request.newContext();
         let response = await req.post(`${API_URL}/api/products`, {
             headers: {
-                cookies: cookie,
+                cookie: cookie,
             },
             data: requestBody
         });
-
         return response;
     }
 }

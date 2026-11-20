@@ -10,6 +10,7 @@ export class UIManager {
     dashboardPage: DashboardPage;
     newProductPage: NewProductPage;
     editProductPage: EditProductPage;
+    
     constructor(page: Page) {
         this.page = page;
         this.loginPage = new LoginPage(page);

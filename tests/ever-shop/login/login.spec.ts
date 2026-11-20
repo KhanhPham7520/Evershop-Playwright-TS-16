@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { test } from "@playwright/test";
 import {ADMIN_HOST,ADMIN_PASSWORD,ADMIN_USERNAME} from "../../../src/utils/constants-utils";
 import { LoginPage } from "../../../src/pages/login-page";
 import { DashboardPage } from "../../../src/pages/dashboard-page";

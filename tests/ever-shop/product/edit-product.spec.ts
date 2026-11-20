@@ -13,8 +13,7 @@ let dashboardPage: DashboardPage;
 let productPage: ProductPage;
 let editProductPage: EditProductPage;
 let productIds: string[] = [];
-let cookie: string;
-
+let cookie: string
 test.beforeEach(async ({ page }) => {
     newProductPage = new NewProductPage(page);
     loginPage = new LoginPage(page);
@@ -32,16 +31,36 @@ test.afterAll(() => {
     }
 })
 
-test("Verify edit product successful", async () => {
+test("Verify edit product successful", async ({page}) => {
     await dashboardPage.onPage();
+
     const random = new Date().getTime();
     const productName = `Iphone ${random}`;
     const sku = `SKU-${random}`;
     const urlKey = `iphone-18-pro-max-${random}`;
+
     createProductBody.name = productName;
     createProductBody.sku = sku;
     createProductBody.url_key = urlKey;
 
+    console.log();
+
     let response = await dashboardPage.createNewProduct(cookie, createProductBody);
     expect(response.ok()).toBeTruthy();
+
+    await newProductPage.clickMenuItemByLabel('Products');
+    await productPage.onPage();
+    await productPage.searchProduct(random.toString());
+    await productPage.selectProductByName(productName);
+    await editProductPage.onPage(productName);
+
+    let productId = editProductPage.getProductIdFromUrl();
+    const newProductName = `IPhone ${new Date().getTime()}`;
+    await editProductPage.inputTextboxByLabel('Name', newProductName);
+    await editProductPage.clickButtonByLabel('Save');
+    await newProductPage.verifyNotificationMessage('Product saved successfully!');
+    await page.reload();
+    expect(await editProductPage.getTextboxValueByLabel('Name')).toEqual(newProductName);
+
+    productIds.push(productId);
 });

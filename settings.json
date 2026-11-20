@@ -1,4 +1,10 @@
 {
 "editor.formatOnSave": true,
-"editor.defaultFormatter": "esbenp.prettier-vscode"
+"editor.defaultFormatter": "esbenp.prettier-vscode",
+"prettier.requireConfig": true,
+//disable AI features
+"editor.inlineSuggest.enabled": false,
+"github.copilot.enable": { "*": false },
+"github.copilot.nextEditSuggestions.enabled": false,
+"github.copilot.editor.enableCodeActions": false
 }

@@ -35,7 +35,6 @@ test.afterAll(() => {
 test("Verify create a new product successful", async () => {
     await dashboardPage.onPage();
     await dashboardPage.clickMenuItemByLabel("New Product");
-
     await dashboardPage.onPage();
     const random = new Date().getTime();
     const productName = `Iphone ${random}`;

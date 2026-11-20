@@ -1,33 +1,53 @@
 {
-    "name": "Iphone 1787577600106",
-    "product_id": "",
-    "sku": "SKU-1787577600106",
-    "price": "1500",
-    "weight": "0.05",
-    "category_id": "3",
-    "tax_class": "1",
-    "description": "[]",
-    "images": [
-        "/assets/catalog/1927/2364/iphone-17-pro-max-cam.jpg"
-    ],
-    "url_key": "iphone-18-pro-max-1787577600106",
-    "meta_title": "Iphone 18 Pro Max",
-    "meta_keywords": "Iphone 18, pro, max",
-    "meta_description": "Iphone 18 pro max description",
-    "status": "0",
-    "visibility": "0",
-    "manage_stock": "0",
-    "stock_availability": "0",
-    "qty": "100",
-    "group_id": "1",
-    "attributes": [
+  "name": "Pham Phan Nhat Khanh 123",
+  "sku": "1221",
+  "price": 2112,
+  "tax_class": 1,
+  "description": [
+    {
+      "id": "r__98e426b1-bd67-4154-aa68-6675f83f5c14",
+      "size": 1,
+      "className": "md:grid-cols-1",
+      "columns": [
         {
-            "attribute_code": "color",
-            "value": "2"
-        },
-        {
-            "attribute_code": "size",
-            "value": "4"
+          "id": "c__4b0f3e70-96b9-41bf-9247-95459ea03718",
+          "size": 1,
+          "className": "md:col-span-1",
+          "data": {}
         }
-    ]
+      ]
+    }
+  ],
+  "url_key": "1111",
+  "meta_title": "1111",
+  "meta_keywords": "",
+  "meta_description": "",
+  "status": 1,
+  "visibility": 1,
+  "manage_stock": 1,
+  "stock_availability": 1,
+  "qty": 12,
+  "no_shipping_required": false,
+  "weight": 2222,
+  "package_id": 1,
+  "group_id": "1",
+  "images": [],
+  "attributes": [
+    {
+      "attribute_code": "color",
+      "attribute_name": "Color",
+      "type": "select",
+      "attribute_id": "1",
+      "value": "",
+      "is_required": 0
+    },
+    {
+      "attribute_code": "size",
+      "attribute_name": "Size",
+      "type": "select",
+      "attribute_id": "2",
+      "value": "",
+      "is_required": 0
+    }
+  ]
 }
