@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: evershop/evershop:2.2.1
+    image: evershop/evershop:latest
     restart: always
     environment:
       DB_HOST: database
@@ -10,13 +10,17 @@ services:
       DB_PASSWORD: postgres
       DB_USER: postgres
       DB_NAME: postgres
+      JWT_ADMIN_SECRET: dev-admin-secret-key-at-least-32-characters-long
+      JWT_ADMIN_REFRESH_SECRET: dev-admin-refresh-key-at-least-32-characters-long
+      JWT_CUSTOMER_SECRET: dev-customer-secret-key-at-least-32-characters-long
+      JWT_CUSTOMER_REFRESH_SECRET: dev-customer-refresh-key-at-least-32-characters-long
     networks:
       - myevershop
     depends_on:
       - database
     ports:
       - 3000:3000
-
+  
   #The postgres database: 
   database:
     image: postgres:16
