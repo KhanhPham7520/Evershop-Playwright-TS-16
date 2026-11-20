@@ -19,13 +19,12 @@
     "test": "tests"
   },
   "scripts": {
-    "setup": "evershop install",
-    "build": "evershop build",
-    "start": "evershop start"
+    "test": "npx playwright test tests/ever-shop/login",
+    "test:ci": "TEST_ENV=CI npx playwright test tests/ever-shop/login"
   },
   "dependencies": {
     "@evershop/evershop": "^2.2.1",
-    "fsevents": "^2.3.2",
+    "dotenv": "^18.0.10",
     "playwright": "^1.61.1",
     "playwright-core": "^1.61.1",
     "undici-types": "^8.3.0"
@@ -33,6 +32,6 @@
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.6.6",
-    "prettier": "^3.9.9"
+    "prettier": "^3.10.1"
   }
 }

@@ -1,22 +1,22 @@
 import { test, expect } from '@playwright/test';
 
 
-test.beforeAll("Before All", async() => {
-  console.log("Before All");
-});
+// test.beforeAll("Before All", async() => {
+//   console.log("Before All");
+// });
 
 
-test.beforeAll("Before Each", async() => {
-  console.log("Before Each");
-});
+// test.beforeAll("Before Each", async() => {
+//   console.log("Before Each");
+// });
 
-test.beforeAll("After Each", async() => {
-  console.log("Before Each");
-});
+// test.beforeAll("After Each", async() => {
+//   console.log("Before Each");
+// });
 
-test.beforeAll("After All", async() => {
-  console.log("After All");
-});
+// test.beforeAll("After All", async() => {
+//   console.log("After All");
+// });
 
 
 
@@ -36,3 +36,7 @@ test('get started link', async ({ page }) => {
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
+
+test('test dotenv config', () => {
+  console.log(process.env.ADMIN_USERNAME);
+})
