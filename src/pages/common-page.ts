@@ -97,4 +97,14 @@ export class CommonPage {
         });
         return response;
     }
+
+    buildCreateProductBody(requestBody: any){
+        const random = new Date().getTime();
+        const productName = `Iphone ${random}`;
+        const sku = `iphone-18-pro-max-${random}`;
+        requestBody.name = productName;
+        requestBody.sku = sku;
+        //requestBody.url_key = urlKey;
+        return requestBody;
+    }
 }

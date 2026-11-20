@@ -22,23 +22,14 @@ test.afterAll(() => {
 test("Verify edit product successful", async ({page}) => {
     await ui.dashboardPage.onPage();
 
-    // let createProductRequestBody = dashboardPage.buildCreateProductBody();
+    let createProductRequestBody = ui.dashboardPage.buildCreateProductBody(createProductBody);
 
-    const random = new Date().getTime();
-    const productName = `Iphone ${random}`;
-    const sku = `SKU-${random}`;
-    const urlKey = `iphone-18-pro-max-${random}`;
-
-    createProductBody.name = productName;
-    createProductBody.sku = sku;
-    createProductBody.url_key = urlKey;
-
-    let response = await ui.dashboardPage.createNewProduct(cookie, createProductBody);
-    expect(response.ok()).toBeTruthy();
+    const productName = createProductBody.name;
+    await ui.dashboardPage.createNewProduct(cookie, createProductRequestBody);
 
     await ui.newProductPage.clickMenuItemByLabel('Products');
     await ui.productPage.onPage();
-    await ui.productPage.searchProduct(random.toString());
+    await ui.productPage.searchProduct(productName);
     await ui.productPage.selectProductByName(productName);
     await ui.editProductPage.onPage(productName);
 
@@ -47,8 +38,7 @@ test("Verify edit product successful", async ({page}) => {
     await ui.editProductPage.inputTextboxByLabel('Name', newProductName);
     await ui.editProductPage.clickButtonByLabel('Save');
     await ui.newProductPage.verifyNotificationMessage('Product saved successfully!');
-    await page.reload();
+    await ui.page.reload();
     expect(await ui.editProductPage.getTextboxValueByLabel('Name')).toEqual(newProductName);
-
     productIds.push(productId);
 });

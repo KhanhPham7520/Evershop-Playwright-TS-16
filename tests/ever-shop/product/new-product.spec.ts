@@ -1,28 +1,23 @@
 import { expect, test } from "@playwright/test";
-import { ADMIN_PASSWORD, ADMIN_USERNAME, URL } from "../../../src/utils/constants-utils";
 import { UIManager } from "../../../src/pages/ui-manager";
+import { adminTest } from "../../../src/fixtures/admin-fixtures";
 
-let ui: UIManager;
+let localUi: UIManager;
 let productIds: string[] = [];
-let cookie: string;
+let localCookie: string;
 
-
-test.beforeEach(async ({ page }) => {
-    ui = new UIManager(page);
-
-    await page.goto(URL);
-    await ui.loginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);
-    cookie = await ui.loginPage.getCookie();
+adminTest.beforeEach(async ({ cookie, ui }) => {
+    localUi = ui;
+    localCookie = cookie;
 });
 
-test.afterAll(() => {
+adminTest.afterAll(() => {
     for (let id of productIds) {
-      ui.editProductPage.deleteProductById(cookie, id);
+      localUi.editProductPage.deleteProductById(localCookie, id);
     }
 })
 
-
-test("Verify create a new product successful", async () => {
+adminTest("Verify create a new product successful", async ({ui, page,request,context, cookie}) => {
     await ui.dashboardPage.onPage();
     await ui.dashboardPage.clickMenuItemByLabel("New Product");
     await ui.dashboardPage.onPage();
@@ -65,5 +60,4 @@ test("Verify create a new product successful", async () => {
     expect(await ui.editProductPage.getTextboxValueByLabel("weight")).toEqual("0.05");
 
     productIds.push(productId);
-
 });

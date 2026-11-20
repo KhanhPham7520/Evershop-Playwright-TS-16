@@ -1,5 +1,6 @@
 import { test } from "@playwright/test";
 import { UIManager } from "../pages/ui-manager";
+import { ADMIN_PASSWORD, ADMIN_USERNAME, URL } from "../utils/constants-utils";
 
 type AdminFixture = {
     ui: UIManager;
@@ -7,5 +8,14 @@ type AdminFixture = {
 }
 
 export const adminTest = test.extend<AdminFixture>({
-
+    ui : async ({page}, use) => {
+        let ui = new UIManager(page);
+        await page.goto(URL);
+        await ui.loginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);
+        await use(ui);
+    },
+    cookie: async ({ui}, use) => {
+        let cookie = await ui.loginPage.getCookie();
+        await use(cookie);
+    }
 });
