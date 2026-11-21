@@ -29,8 +29,10 @@ export class CommonPage {
     }
 
     async clickButtonByLabel(label: string) {
+        await allure.step(`Click into button ${label}`, async () => {
         let xpath = `//*[(@role='button' or self::button or self::input) and (normalize-space()='${label}' or @value='${label}')]`;
         await this.page.locator(xpath).click();
+        })
     }
 
     async verifyFieldErrorMessageByLabel(
