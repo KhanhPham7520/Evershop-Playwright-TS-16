@@ -8,7 +8,16 @@ type AdminFixture = {
 }
 
 export const adminTest = test.extend<AdminFixture>({
-    ui : async ({page}, use) => {
+    page: async ({page}, use, testInfo){
+        await use(page);
+        if(testInfo.status !== 'passed'){
+            await testInfo.attach('screenshot', {
+                body: (await page.screenshot({fullPage: true})),
+                contentType: 'image/png'
+            });
+        }
+    },
+    ui: async({page}, use) => {
         let ui = new UIManager(page);
         await page.goto(URL);
         await ui.loginPage.login(ADMIN_USERNAME, ADMIN_PASSWORD);

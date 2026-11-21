@@ -30,10 +30,8 @@ test("Verify login successful ", async () => {
 // }
 
 test("Verify login failed when password is empty", async () => {
-    await loginPage.login("khanhpham", "");
-    
-    await loginPage.verifyFieldErrorMessageByLabel("Email","This field can not be empty");
-    await loginPage.verifyFieldErrorMessageByLabel("Password","This field can not be empty");
+    await loginPage.login(ADMIN_USERNAME, "");
+    await loginPage.verifyFieldErrorMessageByLabel("Password","Password is required");
 });
 
 // test("Verify login failed when username is invalid", async ({ page }) => {

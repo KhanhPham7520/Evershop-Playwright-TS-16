@@ -14,7 +14,7 @@ export class LoginPage extends CommonPage {
     }
 
     async verifyFieldErrorMessageByLabel(label: string, message: string) {
-        let xpath = `//label[normalize-space()='${label}']/following::div[contains(concat(' ', @class, ' '),'field-error') and (normalize-space()='${message}')]`;
+        let xpath = `//label[contains(normalize-space(),'${label}')]//parent::div/div[contains(@id,'error') and normalize-space()='${message}']`;
         await expect(this.page.locator(xpath)).toBeVisible();
     }
 }

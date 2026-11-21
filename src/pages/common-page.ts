@@ -1,5 +1,6 @@
 import { expect, Page, request } from "@playwright/test";
 import { API_URL } from "../utils/constants-utils";
+import * as allure from "allure-js-commons";
 
 export class CommonPage {
 
@@ -10,15 +11,21 @@ export class CommonPage {
     }
 
     async inputTextboxByLabel(label: string, input: string) {
+        await allure.step(`Input value "${input}" into field "${label}"`, async () => {
+        
         let xpathTextbox = `//input[@name='${label}']`;
         let xpathTextarea = `//textarea[@id='${label}']`;
-        let inputLocator = this.page
-            .locator(`${xpathTextbox} | ${xpathTextarea}`)
-            .first();
+        let inputLocator = this.page.locator(`${xpathTextbox} | ${xpathTextarea}`).first();
 
+        await this.page.waitForTimeout(100);
         await inputLocator.click();
+
+        await this.page.waitForTimeout(100);
         await inputLocator.clear();
+
+        await this.page.waitForTimeout(100);
         await inputLocator.fill(input);
+        })
     }
 
     async clickButtonByLabel(label: string) {
