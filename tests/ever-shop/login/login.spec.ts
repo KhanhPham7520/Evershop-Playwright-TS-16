@@ -34,9 +34,9 @@ test("Verify login failed when password is empty", async () => {
     await loginPage.verifyFieldErrorMessageByLabel("Password","Password is required");
 });
 
-// test("Verify login failed when username is invalid", async ({ page }) => {
-//     await inputTextboxByLabel("Email", "khanhpham", page);
-//     await inputTextboxByLabel("Password", "1234567890", page);
-//     await clickButtonByLabel("SIGN IN", page);
-//     await verifyFieldErrorMessageByLabel("Email", "Invalid email", page);
-// });
+test("Verify login failed when username is invalid", async () => {
+    await loginPage.inputTextboxByLabel("email", "khanhpham");
+    await loginPage.inputTextboxByLabel("password", "1234567890");
+    await loginPage.clickButtonByLabel("Sign In");
+    await loginPage.verifyFieldErrorMessageByLabel("Email", "Invalid email");
+});
